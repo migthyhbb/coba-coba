@@ -1,4 +1,5 @@
-const 1="anak"
+let truth= "anak"
 
-  if (1 === anak){console.log"betul"}
-else {console.log"salah"}
+  if (truth === "anak"){console.log("betul")}
+else {console.log("salah")};
+console.log(truth)
