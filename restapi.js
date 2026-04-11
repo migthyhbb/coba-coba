@@ -6,7 +6,7 @@ const port = 3000;
 
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/api_kasir', { useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/api_kasir', { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => 
     { console.log('Connected to MongoDB: mongodb://localhost:27017/'); })
 .catch((err) =>
