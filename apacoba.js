@@ -1,1 +1,0 @@
-console.log("jgn femboy ya adik2")
