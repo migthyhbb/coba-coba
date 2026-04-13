@@ -64,7 +64,7 @@ app.put('/api/items/:id', async (req, res) => {
         res.status(500).json({ error: 'Server Failed to update item' });
     }
 });
-
+// hebat kamu bi
 app.delete('/api/items/:id', async (req, res) => {
     try {
         const itemId = req.params.id;
