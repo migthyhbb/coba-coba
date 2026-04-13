@@ -2,7 +2,12 @@
 // Use Ctrl+Space inside a snippet or a string literal to trigger completions.
 
 // The current database to use.
-use('rest_kasir_database');
+use('api_kasir');
+
+// Create a new document in the collection
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
 
 // Create a new document in the collection.
 db.getCollection('kasir_users').insertOne({
@@ -25,19 +30,18 @@ db.getCollection('kasir_users').insertOne({
 });
 
 db.getCollection('items').insertOne({
-    "id":1,
-    "items":"Nasi Goreng",
+    "name":"Nasi Goreng",
     "price":15000,
     "quantity":1,
     "total_price":15000,
+    "updated_at": new Date(),
 });
 db.getCollection('items').insertOne({
-    
-    "id":2,
-    "items":"Mie Goreng",
+    "name":"Mie Goreng",
     "price":12000,
     "quantity":1,
     "total_price":12000,
-
-
+    "updated_at": new Date(),
 });
+
+
