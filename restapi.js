@@ -7,9 +7,9 @@ app.use(express.json());
 
 async function connectToMongoDB() {
     try {
-        await mongoose.connect('mongodb://localhost:27017/api_kasir', {
+        await mongoose.connect('mongodb://host.docker.internal:27017/api_kasir', {
         });
-        console.log('Connected to MongoDB: mongodb://localhost:27017/');
+        console.log(' mongodb://host.docker.internal:27017/api_kasir');
     } catch (err) {
         console.error('MongoDB connection error: %s \n', err);
     }
@@ -26,6 +26,16 @@ const ItemsSchema = new mongoose.Schema({
 });
 
 const Items = mongoose.model('Items', ItemsSchema);
+
+const Receiptschema = new mongoose.Schema({
+    name: String,
+    price: Number,
+    quantity: Number,
+    total_price: Number,
+    transaction_date: Date
+});
+
+const Receipt = mongoose.model("Receipt",Receiptschema)
 
 
 app.get('/api/items',async (req, res) => {
@@ -80,6 +90,44 @@ app.delete('/api/items/:id', async (req, res) => {
 });
 
 
+app.post('/api/checkout',async (req,res) =>{
+    try{
+        const {itemid,buyquantity}=req.body;
+        const item = await Items.findById(itemid);
+
+        if(!item){
+            return res.status(404).json({error:"no item found in our databases"});
+        }
+        
+         if (item.quantity === 0){
+            return res.status(403).json({error: 'barang yg kmu pinta sdh habis'});
+         }
+         if (item.quantity < buyquantity)
+            return res.status(403).json({error:"barang yg kmu beli melebihi stock yg kami punya harap dikurangi"});
+        
+         item.quantity -= buyquantity;
+         item.total_price = item.price * item.quantity;
+         item.updated_at = new Date()
+         await item.save();
+
+         res.json({ message: 'item berhasil di checkout'})
+
+    }
+    catch(err){
+       if (err.name === 'CastError'){
+        return res.status(404).json({error:'id barang ini gaada di database'});   
+       }
+        res.status(500).json({error:'server gagal memproses checkout'});
+    }
+
+
+    app.get('/api/receipt',async (req,res) =>{
+        try{
+
+        }
+        catch(s){}
+    })
+});
 app.listen(port,() =>{
     console.log(`the server is running at http://localhost:${port}`);
     });
